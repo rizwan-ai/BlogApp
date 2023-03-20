@@ -5,8 +5,14 @@ name = "pypi"
 
 [packages]
 black = "*"
+fastapi = "*"
+uvicorn = "*"
+sqlalchemy = "*"
+passlib = {extras = ["bcrypt"], version = "*"}
+python-jose = {extras = ["cryptography"], version = "*"}
 
 [dev-packages]
+autopep8 = "*"
 
 [requires]
 python_version = "3.10"
