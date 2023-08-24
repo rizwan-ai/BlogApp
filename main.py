@@ -3,8 +3,9 @@
 # Importing FastAPI packages
 from fastapi import FastAPI
 
+
 # Importing from project files
-# from core.db import init_db
+
 
 # Router Object to Create Routes
 app = FastAPI(
@@ -18,11 +19,12 @@ app = FastAPI(
 # ----------------------------------------------------------------------------#
 
 
-# @app.on_event("startup")
-# def db_startup():
-#     init_db()
-
-
 @app.get("/")
 def root():
     return {"message": "Hello World"}
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="127.0.0.1", port=5000)

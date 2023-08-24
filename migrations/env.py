@@ -7,15 +7,20 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
+from sqlmodel import SQLModel  # NEW
+
 # Importing from project files
-from core.models.hero import Hero
-from core.models.blog import Blog
+from core.models.blog import Blog  # NEW
+from core.db import db_url, db_schema  # NEW
 
 # ----------------------------------------------------------------------------#
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+# Set the database URL in the config object
+config.set_main_option("sqlalchemy.url", db_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -26,7 +31,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = SQLModel.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -59,9 +64,18 @@ def run_migrations_offline() -> None:
 
 
 def do_run_migrations(connection: Connection) -> None:
-    context.configure(connection=connection, target_metadata=target_metadata)
+    context.configure(
+        connection=connection,
+        target_metadata=target_metadata,
+        include_schemas=True,
+        compare_server_default=True,
+        compare_type=True,
+        version_table_schema=db_schema,
+    )
 
     with context.begin_transaction():
+        context.execute(f"CREATE SCHEMA IF NOT EXISTS {db_schema};")
+        # context.execute(f"DROP TABLE IF EXISTS public.alembic_version;")
         context.run_migrations()
 
 
