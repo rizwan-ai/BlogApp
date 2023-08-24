@@ -4,7 +4,7 @@
 from fastapi import FastAPI
 
 # Importing from project files
-from core.models.hero import Hero
+# from core.db import init_db
 
 # Router Object to Create Routes
 app = FastAPI(
@@ -16,6 +16,11 @@ app = FastAPI(
 )
 
 # ----------------------------------------------------------------------------#
+
+
+# @app.on_event("startup")
+# def db_startup():
+#     init_db()
 
 
 @app.get("/")
