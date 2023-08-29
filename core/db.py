@@ -10,7 +10,8 @@ from environs import Env
 
 # Importing SQLModel packages
 from sqlmodel import create_engine
-from sqlmodel.ext.asyncio.session import AsyncEngine
+from sqlmodel.ext.asyncio.session import AsyncEngine, AsyncSession
+from sqlalchemy.orm import sessionmaker
 
 # ----------------------------------------------------------------------------#
 
@@ -34,3 +35,9 @@ db_url = (
 )
 # Creating an instance of the AsyncEngine class to connect to the database
 db_engine = AsyncEngine(create_engine(db_url, echo=True))
+
+
+async def get_session() -> AsyncSession:
+    async_session = sessionmaker(db_engine, class_=AsyncSession, expire_on_commit=False)
+    async with async_session() as session:
+        yield session

@@ -1,19 +1,33 @@
+"""
+    Alembic database migration environment for use with SQLModel.
+
+    Description:
+    - This file is used to configure alembic migration environment for database.
+
+"""
+
+# Importing SQLModel packages
+from sqlmodel import SQLModel
+
+# Importing from project files
+from core.db import db_url, db_schema
+from core.models.blog import Blog
+
+# Importing Python packages
 import asyncio
 from logging.config import fileConfig
 
+# Importing SQLAlchemy packages
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
+# Importing Alembic packages
 from alembic import context
 
-from sqlmodel import SQLModel  # NEW
-
-# Importing from project files
-from core.models.blog import Blog  # NEW
-from core.db import db_url, db_schema  # NEW
 
 # ----------------------------------------------------------------------------#
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
